@@ -1,8 +1,5 @@
 <script>
   document.addEventListener("WebComponentsReady", function() {
-    var url = window.location.href;
-    $.get(url, function(data) {
-      eventListener.route = data;
-    });
+    eventListener.route = route;
   });
 </script>

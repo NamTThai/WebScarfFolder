@@ -20,6 +20,11 @@
   <!-- Normailze stylesheet for cross-browser support -->
   <link rel="stylesheet" src="http://normalize-css.googlecode.com/svn/trunk/normalize.css">
 
+  <!-- Server variables -->
+  <script>
+    var route = "<%= route %>";
+  </script>
+
   <!-- Polymer components -->
   <link rel="import" href="bower_components/iron-icons/iron-icons.html">
   <link rel="import" href="bower_components/iron-pages/iron-pages.html">
@@ -43,14 +48,14 @@
 </head>
 <body class="fullbleed layout vertical">
   <template class="event-listener" is="dom-bind">
-    <paper-drawer-panel>
+    <paper-drawer-panel class="drawer-panel">
       <div drawer>
         <paper-toolbar class="drawer-toolbar">
           <span class="drawer-toolbar-menu">Menu</span>
         </paper-toolbar>
         <paper-menu attr-for-selected="data-route" selected="{{route}}">
-          <paper-item data-route="one">Sample Item 1</paper-item>
-          <paper-item data-route="two">Sample Item 2</paper-item>
+          <paper-item data-route="one" on-click="onDrawerItemClick">Sample Item 1</paper-item>
+          <paper-item data-route="two" on-click="onDrawerItemClick">Sample Item 2</paper-item>
         </paper-menu>
       </div>
       <paper-scroll-header-panel main condenses keep-condensed-header>

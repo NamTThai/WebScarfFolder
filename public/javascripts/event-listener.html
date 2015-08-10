@@ -21,4 +21,14 @@
     // Scale middleContainer appName
     Polymer.Base.transform('scale(' + scaleMiddle + ') translateZ(0)', appName);
   });
+
+  eventListener.onDrawerItemClick = function(event) {
+    var drawer = document.querySelector(".drawer-panel");
+    if (drawer.narrow) {
+      drawer.closeDrawer();
+    }
+
+    var route = event.target.getAttribute("data-route");
+    window.history.pushState("", "", "/" + route);
+  }
 </script>
