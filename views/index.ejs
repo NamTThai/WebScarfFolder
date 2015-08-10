@@ -10,6 +10,7 @@
 
   <!-- Jquery -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="javascripts/ejs.js"></script>
 
   <!-- Fonts -->
   <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
@@ -32,7 +33,7 @@
 
   <!-- My custom components -->
   <link rel="import" href="javascripts/event-listener.html">
-  <link rel="import" href="javascripts/ready.html">
+  <script src="javascripts/ready.js"></script>
 
   <link rel="import" href="stylesheets/custom-style.html">
   <link rel="stylesheet" href="stylesheets/fw-layout.css">
@@ -46,7 +47,7 @@
     <paper-drawer-panel>
       <div drawer>
         <paper-toolbar class="drawer-toolbar">
-          <span class="drawer-toolbar-menu">Menu</span>
+          <span class="drawer-toolbar-menu"><%= route %></span>
         </paper-toolbar>
         <paper-menu attr-for-selected="data-route" selected="{{route}}">
           <paper-item data-route="one">Sample Item 1</paper-item>
