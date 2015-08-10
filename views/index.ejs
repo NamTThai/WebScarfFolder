@@ -23,6 +23,7 @@
   <!-- Polymer components -->
   <link rel="import" href="bower_components/iron-icons/iron-icons.html">
   <link rel="import" href="bower_components/paper-drawer-panel/paper-drawer-panel.html">
+  <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
   <link rel="import" href="bower_components/paper-item/paper-item.html">
   <link rel="import" href="bower_components/paper-menu/paper-menu.html">
   <link rel="import" href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
@@ -32,6 +33,10 @@
   <link rel="import" href="javascripts/event-listener.html">
   <link rel="import" href="javascripts/ready.html">
 
+  <link rel="import" href="stylesheets/custom-style.html">
+  <link rel="stylesheet" href="stylesheets/fw-layout.css">
+  <link rel="stylesheet" href="stylesheets/fw-template.css">
+  <link rel="stylesheet" href="stylesheets/fw-theme.css">
   <link rel="stylesheet" href="stylesheets/style.css">
 
 </head>
@@ -39,15 +44,26 @@
   <template class="event-listener" is="dom-bind">
     <paper-drawer-panel>
       <div drawer>
-        <paper-toolbar>
-          <span class="drawer-title">Menu</span>
+        <paper-toolbar class="drawer-toolbar">
+          <span class="drawer-toolbar-menu">Menu</span>
         </paper-toolbar>
-
-        <paper-menu selected="0">
+        <paper-menu class="list" selected="0">
           <paper-item>Sample Item 1</paper-item>
           <paper-item>Sample Item 2</paper-item>
         </paper-menu>
       </div>
+      <paper-scroll-header-panel main mode="waterfall-tall">
+        <paper-toolbar id="mainToolbar" class="tall">
+          <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+          <div class="middle app-name">Application Title</div>
+          <div class="bottom app-subtitle">Subtitle</div>
+        </paper-toolbar>
+        <div class="content">
+          <img src="//placekitten.com/g/1200/1200" alt="Place Kitten">
+          <img src="//placekitten.com/g/1200/1200" alt="Place Kitten">
+          <img src="//placekitten.com/g/1200/1200" alt="Place Kitten">
+        </div>
+      </paper-scroll-header-panel>
     </paper-drawer-panel>
   </template>
 </body>
