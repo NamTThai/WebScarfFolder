@@ -22,10 +22,12 @@
 
   <!-- Polymer components -->
   <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="bower_components/iron-pages/iron-pages.html">
   <link rel="import" href="bower_components/paper-drawer-panel/paper-drawer-panel.html">
   <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
   <link rel="import" href="bower_components/paper-item/paper-item.html">
   <link rel="import" href="bower_components/paper-menu/paper-menu.html">
+  <link rel="import" href="bower_components/paper-ripple/paper-ripple.html">
   <link rel="import" href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
   <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
 
@@ -47,21 +49,32 @@
         <paper-toolbar class="drawer-toolbar">
           <span class="drawer-toolbar-menu">Menu</span>
         </paper-toolbar>
-        <paper-menu class="list" selected="0">
-          <paper-item>Sample Item 1</paper-item>
-          <paper-item>Sample Item 2</paper-item>
+        <paper-menu attr-for-selected="data-route" selected="{{route}}">
+          <paper-item data-route="one">
+            <paper-ripple></paper-ripple>
+            Sample Item 1
+          </paper-item>
+          <paper-item data-route="two">
+            <paper-ripple></paper-ripple>
+            Sample Item 2
+          </paper-item>
         </paper-menu>
       </div>
-      <paper-scroll-header-panel main mode="waterfall-tall">
+      <paper-scroll-header-panel main condenses keep-condensed-header>
         <paper-toolbar id="mainToolbar" class="tall">
           <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-          <div class="middle app-name">Application Title</div>
-          <div class="bottom app-subtitle">Subtitle</div>
+          <div class="middle middle-container center horizontal layout">
+            <span class="app-name">Application Title</span>
+          </div>
+          <div class="bottom bottom-container center horizontal layout">
+            <div class="bottom-title paper-font-subhead">Subtitle</div>
+          </div>
         </paper-toolbar>
         <div class="content">
-          <img src="//placekitten.com/g/1200/1200" alt="Place Kitten">
-          <img src="//placekitten.com/g/1200/1200" alt="Place Kitten">
-          <img src="//placekitten.com/g/1200/1200" alt="Place Kitten">
+          <iron-pages attr-for-selected="data-route" selected="{{route}}">
+            <section data-route="one">Sample Item 1</section>
+            <section data-route="two">Sample Item 2</section>
+          </iron-pages>
         </div>
       </paper-scroll-header-panel>
     </paper-drawer-panel>
