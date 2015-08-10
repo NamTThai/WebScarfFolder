@@ -27,7 +27,6 @@
   <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
   <link rel="import" href="bower_components/paper-item/paper-item.html">
   <link rel="import" href="bower_components/paper-menu/paper-menu.html">
-  <link rel="import" href="bower_components/paper-ripple/paper-ripple.html">
   <link rel="import" href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
   <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
 
@@ -50,14 +49,8 @@
           <span class="drawer-toolbar-menu">Menu</span>
         </paper-toolbar>
         <paper-menu attr-for-selected="data-route" selected="{{route}}">
-          <paper-item data-route="one">
-            <paper-ripple></paper-ripple>
-            Sample Item 1
-          </paper-item>
-          <paper-item data-route="two">
-            <paper-ripple></paper-ripple>
-            Sample Item 2
-          </paper-item>
+          <paper-item data-route="one">Sample Item 1</paper-item>
+          <paper-item data-route="two">Sample Item 2</paper-item>
         </paper-menu>
       </div>
       <paper-scroll-header-panel main condenses keep-condensed-header>
