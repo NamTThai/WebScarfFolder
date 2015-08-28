@@ -1,53 +1,4 @@
 var gulp = require('gulp');
-var concat = require('gulp-concat');
-var prefixer = require('gulp-autoprefixer');
-var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
-var uglify = require('gulp-uglify');
-
-gulp.task('default', ['copy', 'scripts', 'sass']);
-
-gulp.task('copy', function() {
-  gulp.src('./public/favicon.ico')
-    .pipe(gulp.dest('./build'));
-})
-
-gulp.task('sass', function() {
-  gulp.src('./public/stylesheets/*.scss')
-    .pipe(sourcemaps.init())
-    .pipe(prefixer())
-    .pipe(sass())
-    .pipe(concat('styles.css'))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./build/stylesheets'));
-});
-
-gulp.task('scripts', function() {
-  gulp.src('./public/javascripts/*.js')
-    .pipe(sourcemaps.init())
-    .pipe(concat('scripts.js'))
-    .pipe(uglify())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./build/javascripts'));
-});
-
-gulp.task('serve', function() {
-  gulp.watch(['./public/favicon.ico', './public/stylesheets/*.scss', './public/javascripts/*.js'], ['copy', 'sass', 'scripts']);
-});
-
-/*
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
-'use strict';
-
-// Include Gulp & Tools We'll Use
-var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
 var runSequence = require('run-sequence');
@@ -72,19 +23,20 @@ var AUTOPREFIXER_BROWSERS = [
 
 var styleTask = function (stylesPath, srcs) {
   return gulp.src(srcs.map(function(src) {
-      return path.join('app', stylesPath, src);
+      return path.join('public', stylesPath, src);
     }))
     .pipe($.changed(stylesPath, {extension: '.css'}))
+    .pipe($.sass());
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
     .pipe(gulp.dest('.tmp/' + stylesPath))
     .pipe($.if('*.css', $.cssmin()))
-    .pipe(gulp.dest('dist/' + stylesPath))
+    .pipe(gulp.dest('build/' + stylesPath))
     .pipe($.size({title: stylesPath}));
 };
 
 // Compile and Automatically Prefix Stylesheets
 gulp.task('styles', function () {
-  return styleTask('styles', ['**/*.css']);
+  return styleTask('stylesheets', ['**/*.scss']);
 });
 
 gulp.task('elements', function () {
@@ -112,7 +64,7 @@ gulp.task('images', function () {
       progressive: true,
       interlaced: true
     })))
-    .pipe(gulp.dest('dist/images'))
+    .pipe(gulp.dest('build/images'))
     .pipe($.size({title: 'images'}));
 });
 
@@ -212,7 +164,8 @@ gulp.task('precache', function (callback) {
 });
 
 // Clean Output Directory
-gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
+gulp.task('clean', del.bind(null, ['build', '.tmp', 'logs']));
+gulp.task('clean-deep', del.bind(null, ['build', '.tmp', 'logs', 'node_modules', 'public/bower_components']))
 
 // Watch Files For Changes & Reload
 gulp.task('serve', ['styles', 'elements', 'images'], function () {
