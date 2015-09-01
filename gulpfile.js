@@ -69,17 +69,18 @@ gulp.task('copy', function () {
     dot: true
   }).pipe(gulp.dest('build'));
 
-  var vulcanized = gulp.src(['public/components/components.html'])
-    .pipe($.rename('components.vulcanized.html'))
+  var components = gulp.src(['public/components/**/*.html', '!public/components/components.html'])
     .pipe(gulp.dest('build/components'));
 
-  return merge(root, vulcanized);
+  return merge(root, components);
 });
 
 gulp.task('vulcanize', function () {
   var DEST_DIR = 'build/components';
 
-  return gulp.src('build/components/components.vulcanized.html')
+  return gulp.src('public/components/components.html')
+    .pipe($.rename('/components.vulcanized.html'))
+    .pipe(gulp.dest('build/components'))
     .pipe($.vulcanize({
       dest: DEST_DIR,
       strip: true,
@@ -104,21 +105,24 @@ gulp.task('precache', function (callback) {
 gulp.task('clean', del.bind(null, ['build/**', '!build', '!build/bower_components/**', '.tmp', 'logs']));
 gulp.task('clean-deep', del.bind(null, ['build', '.tmp', 'logs', 'node_modules']));
 
-// Watch Files For Changes & Reload
-gulp.task('serve', ['styles', 'scripts', 'components', 'images'], function () {
-  gulp.watch(['app/**/*.html'], reload);
-  gulp.watch(['app/styles/**/*.css'], ['styles', reload]);
-  gulp.watch(['app/elements/**/*.css'], ['elements', reload]);
-  gulp.watch(['app/{scripts,elements}/**/*.js'], ['jshint']);
-  gulp.watch(['app/images/**/*'], reload);
-});
+gulp.task('serve', ['default'], function (){
+  gulp.watch(['public/*', '!public/precache.json', 'public/components/**/*', '!public/components/components.html'], ['copy']);
+  gulp.watch(['public/stylesheets/**/*.scss'], ['styles']);
+  gulp.watch(['public/javascripts/**/*.js'], ['scripts', 'jshint']);
+  gulp.watch(['public/images/**/*'], ['images']);
+  gulp.watch(['public/components/components.html'], ['vulcanize']);
 
-gulp.task('node', $.shell.task(['nodemon']));
+  return $.nodemon({
+    script: 'bin/www',
+    ext: 'js ejs json',
+    ignore: ['public', 'build']
+  });
+});
 
 // Build Production Files, the Default Task
 gulp.task('default', ['clean'], function (callback) {
   runSequence(
-    ['copy', 'styles'],
+    ['copy', 'styles', 'scripts'],
     ['jshint', 'images'],
     'vulcanize', 'precache',
     callback);

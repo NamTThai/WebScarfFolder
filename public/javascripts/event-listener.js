@@ -1,4 +1,22 @@
-var eventListener = document.querySelector(".event-listener");
+document.addEventListener("WebComponentsReady", function() {
+  var eventListener = document.querySelector(".event-listener");
+
+  eventListener.route = route;
+
+  eventListener.onDrawerItemClick = function(event) {
+    var drawer = document.querySelector(".drawer-panel");
+    if (drawer.narrow) {
+      drawer.closeDrawer();
+    }
+
+    var route = event.target.getAttribute("data-route");
+    window.history.pushState("", "", "/" + route);
+  };
+
+});
+
+// TODO: 3 bugs
+// * Polymer base transform and addEventListener
 
 addEventListener('paper-header-transform', function(e) {
   var appName = document.querySelector('#mainToolbar .app-name');
@@ -20,13 +38,3 @@ addEventListener('paper-header-transform', function(e) {
   // Scale middleContainer appName
   Polymer.Base.transform('scale(' + scaleMiddle + ') translateZ(0)', appName);
 });
-
-eventListener.onDrawerItemClick = function(event) {
-  var drawer = document.querySelector(".drawer-panel");
-  if (drawer.narrow) {
-    drawer.closeDrawer();
-  }
-
-  var route = event.target.getAttribute("data-route");
-  window.history.pushState("", "", "/" + route);
-};
