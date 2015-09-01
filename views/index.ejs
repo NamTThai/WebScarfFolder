@@ -39,11 +39,11 @@
           <span class="drawer-toolbar-menu">Menu</span>
         </paper-toolbar>
         <paper-menu attr-for-selected="data-route" selected="{{route}}">
-          <paper-item data-route="one" on-click="onDrawerItemClick">Sample Item 1</paper-item>
-          <paper-item data-route="two" on-click="onDrawerItemClick">Sample Item 2</paper-item>
+          <paper-item data-route="one" on-click="eDrawerItemClick">Sample Item 1</paper-item>
+          <paper-item data-route="two" on-click="eDrawerItemClick">Sample Item 2</paper-item>
         </paper-menu>
       </div>
-      <paper-scroll-header-panel main condenses keep-condensed-header>
+      <paper-scroll-header-panel main condenses keep-condensed-header on-paper-header-transform="eHeaderTransform">
         <paper-toolbar id="mainToolbar" class="tall">
           <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
           <div class="middle middle-container center horizontal layout">
@@ -55,7 +55,14 @@
         </paper-toolbar>
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
-            <section data-route="one">Sample Item 1</section>
+            <section data-route="one">
+              <img src="https://placekitten.com/g/800/800"></img>
+              <img src="https://placekitten.com/g/800/800"></img>
+              <img src="https://placekitten.com/g/800/800"></img>
+              <img src="https://placekitten.com/g/800/800"></img>
+              <img src="https://placekitten.com/g/800/800"></img>
+              <img src="https://placekitten.com/g/800/800"></img>
+            </section>
             <section data-route="two">Sample Item 2</section>
           </iron-pages>
         </div>

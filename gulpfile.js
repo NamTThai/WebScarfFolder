@@ -20,21 +20,21 @@ var AUTOPREFIXER_BROWSERS = [
 ];
 
 gulp.task('styles', function () {
-  return gulp.src('public/stylesheets/**/*.scss')
+  return gulp.src('public/stylesheets/*.scss')
     .pipe($.sourcemaps.init())
     .pipe($.changed('stylesheets', {extension: '.scss'}))
     .pipe($.sass())
     .pipe($.groupConcat({
-      "styles.css": "**/*.css"
+      "styles.css": "*.css"
     }))
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
-    .pipe($.if('*.css', $.cssmin()))
+    .pipe($.cssmin())
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest('build/' + 'stylesheets'));
 });
 
 gulp.task('scripts', function() {
-  return gulp.src('public/javascripts/**/*.js')
+  return gulp.src('public/javascripts/*.js')
     .pipe($.sourcemaps.init())
     .pipe($.changed('javascripts', {extension: '.js'}))
     .pipe($.concat('scripts.js'))
@@ -44,18 +44,8 @@ gulp.task('scripts', function() {
 
 });
 
-gulp.task('jshint', function () {
-  return gulp.src([
-      'public/javascripts/**/*.js',
-      'public/components/**/*.html'
-    ])
-    .pipe($.jshint.extract())
-    .pipe($.jshint())
-    .pipe($.jshint.reporter('jshint-stylish'));
-});
-
 gulp.task('images', function () {
-  return gulp.src('public/images/**/*')
+  return gulp.src('public/images/*')
     .pipe($.cache($.imagemin({
       progressive: true,
       interlaced: true
@@ -69,7 +59,7 @@ gulp.task('copy', function () {
     dot: true
   }).pipe(gulp.dest('build'));
 
-  var components = gulp.src(['public/components/**/*.html', '!public/components/components.html'])
+  var components = gulp.src(['public/components/*', '!public/components/components.html'])
     .pipe(gulp.dest('build/components'));
 
   return merge(root, components);
@@ -90,6 +80,7 @@ gulp.task('vulcanize', function () {
     .pipe(gulp.dest(DEST_DIR));
 });
 
+// Placeholder for precache service worker
 gulp.task('precache', function (callback) {
   glob('{components,javascripts,stylesheets}/**/*.*', {cwd: 'build'}, function(error, files) {
     if (error) {
@@ -102,14 +93,14 @@ gulp.task('precache', function (callback) {
 });
 
 // Clean Output Directory
-gulp.task('clean', del.bind(null, ['build/**', '!build', '!build/bower_components/**', '.tmp', 'logs']));
-gulp.task('clean-deep', del.bind(null, ['build', '.tmp', 'logs', 'node_modules']));
+gulp.task('clean', del.bind(null, ['build/**', '!build', '!build/bower_components/**']));
+gulp.task('clean-deep', del.bind(null, ['build', 'logs', 'node_modules']));
 
 gulp.task('serve', ['default'], function (){
-  gulp.watch(['public/*', '!public/precache.json', 'public/components/**/*', '!public/components/components.html'], ['copy']);
-  gulp.watch(['public/stylesheets/**/*.scss'], ['styles']);
-  gulp.watch(['public/javascripts/**/*.js'], ['scripts', 'jshint']);
-  gulp.watch(['public/images/**/*'], ['images']);
+  gulp.watch(['public/components/*', '!public/components/components.html'], ['copy']);
+  gulp.watch(['public/stylesheets/*.scss'], ['styles']);
+  gulp.watch(['public/javascripts/*.js'], ['scripts']);
+  gulp.watch(['public/images/*'], ['images']);
   gulp.watch(['public/components/components.html'], ['vulcanize']);
 
   return $.nodemon({
@@ -123,7 +114,6 @@ gulp.task('serve', ['default'], function (){
 gulp.task('default', ['clean'], function (callback) {
   runSequence(
     ['copy', 'styles', 'scripts'],
-    ['jshint', 'images'],
-    'vulcanize', 'precache',
+    'images', 'vulcanize', 'precache',
     callback);
 });
