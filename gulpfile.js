@@ -25,7 +25,7 @@ gulp.task('styles', function () {
     .pipe($.changed('stylesheets', {extension: '.scss'}))
     .pipe($.sass())
     .pipe($.groupConcat({
-      "styles.css": "*.css"
+      "styles.css": "**/*.css"
     }))
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
     .pipe($.cssmin())
@@ -40,7 +40,7 @@ gulp.task('scripts', function() {
     .pipe($.concat('scripts.js'))
     .pipe($.uglify())
     .pipe($.sourcemaps.write())
-    .pipe(gulp.dest('build/' + 'javascripts'));
+    .pipe(gulp.dest('build/javascripts'));
 });
 
 gulp.task('images', function () {
