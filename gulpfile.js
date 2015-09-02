@@ -22,7 +22,6 @@ var AUTOPREFIXER_BROWSERS = [
 gulp.task('styles', function () {
   return gulp.src('public/stylesheets/*.scss')
     .pipe($.sourcemaps.init())
-    .pipe($.changed('stylesheets', {extension: '.scss'}))
     .pipe($.sass())
     .pipe($.groupConcat({
       "styles.css": "**/*.css"
@@ -36,7 +35,6 @@ gulp.task('styles', function () {
 gulp.task('scripts', function() {
   return gulp.src('public/javascripts/*.js')
     .pipe($.sourcemaps.init())
-    .pipe($.changed('javascripts', {extension: '.js'}))
     .pipe($.concat('scripts.js'))
     .pipe($.uglify())
     .pipe($.sourcemaps.write())
