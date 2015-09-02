@@ -22,6 +22,19 @@ var AUTOPREFIXER_BROWSERS = [
 gulp.task('styles', function () {
   return gulp.src('public/stylesheets/*.scss')
     .pipe($.sourcemaps.init())
+    .pipe($.changed('stylesheets', {extension: '.scss'}))
+    .pipe($.sass())
+    .pipe($.groupConcat({
+      "styles.css": "**/*.css"
+    }))
+    .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
+    .pipe($.cssmin())
+    .pipe(gulp.dest('build/stylesheets'));
+});
+
+gulp.task('styles-debug', function() {
+  return gulp.src('public/stylesheets/*.scss')
+    .pipe($.sourcemaps.init())
     .pipe($.sass())
     .pipe($.groupConcat({
       "styles.css": "**/*.css"
@@ -33,6 +46,15 @@ gulp.task('styles', function () {
 });
 
 gulp.task('scripts', function() {
+  return gulp.src('public/javascripts/*.js')
+    .pipe($.sourcemaps.init())
+    .pipe($.changed('javascripts', {extension: '.js'}))
+    .pipe($.concat('scripts.js'))
+    .pipe($.uglify())
+    .pipe(gulp.dest('build/javascripts'));
+});
+
+gulp.task('scripts-debug', function() {
   return gulp.src('public/javascripts/*.js')
     .pipe($.sourcemaps.init())
     .pipe($.concat('scripts.js'))
@@ -93,10 +115,24 @@ gulp.task('precache', function (callback) {
 gulp.task('clean', del.bind(null, ['build/**', '!build', '!build/bower_components/**']));
 gulp.task('clean-deep', del.bind(null, ['build', 'logs', 'node_modules']));
 
-gulp.task('serve', ['default'], function (){
+gulp.task('build', ['default'], function (){
   gulp.watch(['public/components/*', '!public/components/components.html'], ['copy']);
   gulp.watch(['public/stylesheets/*.scss'], ['styles']);
   gulp.watch(['public/javascripts/*.js'], ['scripts']);
+  gulp.watch(['public/images/*'], ['images']);
+  gulp.watch(['public/components/components.html'], ['vulcanize']);
+
+  return $.nodemon({
+    script: 'bin/www',
+    ext: 'js ejs json',
+    ignore: ['public', 'build']
+  });
+});
+
+gulp.task('serve', ['default-debug'], function (){
+  gulp.watch(['public/components/*', '!public/components/components.html'], ['copy']);
+  gulp.watch(['public/stylesheets/*.scss'], ['styles-debug']);
+  gulp.watch(['public/javascripts/*.js'], ['scripts-debug']);
   gulp.watch(['public/images/*'], ['images']);
   gulp.watch(['public/components/components.html'], ['vulcanize']);
 
@@ -111,6 +147,13 @@ gulp.task('serve', ['default'], function (){
 gulp.task('default', ['clean'], function (callback) {
   runSequence(
     ['copy', 'styles', 'scripts'],
+    'images', 'vulcanize', 'precache',
+    callback);
+});
+
+gulp.task('default-debug', ['clean'], function (callback) {
+  runSequence(
+    ['copy', 'styles-debug', 'scripts-debug'],
     'images', 'vulcanize', 'precache',
     callback);
 });
