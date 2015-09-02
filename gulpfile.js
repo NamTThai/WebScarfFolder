@@ -30,7 +30,7 @@ gulp.task('styles', function () {
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
     .pipe($.cssmin())
     .pipe($.sourcemaps.write())
-    .pipe(gulp.dest('build/' + 'stylesheets'));
+    .pipe(gulp.dest('build/stylesheets'));
 });
 
 gulp.task('scripts', function() {
@@ -41,7 +41,6 @@ gulp.task('scripts', function() {
     .pipe($.uglify())
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest('build/' + 'javascripts'));
-
 });
 
 gulp.task('images', function () {
