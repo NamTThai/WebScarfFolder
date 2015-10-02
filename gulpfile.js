@@ -123,7 +123,7 @@ gulp.task('build', ['default'], function (){
   gulp.watch(['public/components/components.html'], ['vulcanize']);
 
   return $.nodemon({
-    script: 'bin/www',
+    script: 'server',
     ext: 'js ejs json',
     ignore: ['public', 'build']
   });
@@ -137,7 +137,7 @@ gulp.task('serve', ['default-debug'], function (){
   gulp.watch(['public/components/components.html'], ['vulcanize']);
 
   return $.nodemon({
-    script: 'bin/www',
+    script: 'server',
     ext: 'js ejs json',
     ignore: ['public', 'build']
   });
