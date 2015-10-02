@@ -15,3 +15,4 @@
 5. `npm install`, `bower install`
 6. Edit `web.config file`
 7. Copy `setup.bat` to parent folder and run this file
+8. Copy `favicon.ico` over to `C:\inetpub\wwwroot`, or wherever the `wwwroot` is located
