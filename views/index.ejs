@@ -20,6 +20,9 @@
   <!-- Server variables -->
   <script>
     var route = "<%= route %>";
+    var appName = "<%= appName %>";
+    var appPath = "/" + appName + "/";
+    console.log(appPath);
   </script>
 
   <!-- Components, Styles and Scripts import -->
@@ -47,7 +50,7 @@
         <paper-toolbar id="mainToolbar" class="tall">
           <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
           <div class="middle middle-container center horizontal layout">
-            <span class="app-name">Application Title</span>
+            <span class="app-name"><%= appTitle %></span>
           </div>
           <div class="bottom bottom-container center horizontal layout">
             <div class="bottom-title paper-font-subhead">Subtitle</div>

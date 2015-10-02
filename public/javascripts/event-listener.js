@@ -10,7 +10,7 @@ document.addEventListener("WebComponentsReady", function() {
     }
 
     var route = event.target.getAttribute("data-route");
-    window.history.pushState("", "", "/" + route);
+    window.history.pushState("", "", appPath + route);
   };
 
   eventListener.eHeaderTransform = function(event) {
