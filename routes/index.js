@@ -12,7 +12,7 @@ allRoutes.forEach(function(route) {
 });
 
 function getRoute(route) {
-  var path = '/' + ((!route) ? route : '');
+  var path = '/' + ((route) ? route : '');
   router.get(path, function(req, res) {
     if (!route) {
       route = allRoutes[0];
