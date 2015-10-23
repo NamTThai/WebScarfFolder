@@ -1,5 +1,5 @@
 document.addEventListener("WebComponentsReady", function() {
-  var eventListener = document.querySelector(".event-listener");
+  var eventListener = document.querySelector("#event-listener");
 
   eventListener.route = route;
 
