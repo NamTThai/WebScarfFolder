@@ -58,7 +58,6 @@ gulp.task('scripts-debug', function() {
   return gulp.src('public/javascripts/*.js')
     .pipe($.sourcemaps.init())
     .pipe($.concat('scripts.js'))
-    .pipe($.uglify())
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest('build/javascripts'));
 });
